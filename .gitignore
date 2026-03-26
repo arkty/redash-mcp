@@ -1,0 +1,11 @@
+node_modules/
+build/
+*.csv
+*.tgz
+.mcp.json
+.redash-query-history.json
+.local/
+.claude/
+.env
+.env.*
+.DS_Store

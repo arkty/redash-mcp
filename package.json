@@ -1,0 +1,48 @@
+{
+  "name": "@arkty/redash-mcp",
+  "version": "0.1.0",
+  "description": "MCP Server for Redash — execute queries, explore schemas, get results as JSON or CSV",
+  "type": "module",
+  "main": "build/index.js",
+  "bin": {
+    "redash-mcp": "build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "prepublishOnly": "npm run build",
+    "dev": "tsc --watch",
+    "start": "node build/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "redash",
+    "sql",
+    "model-context-protocol",
+    "claude",
+    "ai"
+  ],
+  "author": "arkty",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arkty/redash-mcp.git"
+  },
+  "homepage": "https://github.com/arkty/redash-mcp",
+  "bugs": {
+    "url": "https://github.com/arkty/redash-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}

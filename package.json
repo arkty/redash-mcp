@@ -1,6 +1,6 @@
 {
   "name": "@arkty/redash-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP Server for Redash — execute queries, explore schemas, get results as JSON or CSV",
   "type": "module",
   "main": "build/index.js",

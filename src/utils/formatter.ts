@@ -1,5 +1,5 @@
 import { writeFile, mkdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import type { RedashQueryResult } from "../client/types.js";
 
 export interface JsonFormattedResult {
@@ -54,13 +54,20 @@ export async function saveCsvResult(
   csvData: string,
   outputDir: string,
   queryLabel: string,
+  customPath?: string,
 ): Promise<CsvSaveResult> {
-  const dir = resolve(outputDir);
-  await mkdir(dir, { recursive: true });
+  let filePath: string;
 
-  const ts = new Date().toISOString().replace(/[:]/g, "-").split(".")[0];
-  const safeName = queryLabel.replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 50);
-  const filePath = join(dir, `${safeName}_${ts}.csv`);
+  if (customPath) {
+    filePath = resolve(customPath);
+    await mkdir(dirname(filePath), { recursive: true });
+  } else {
+    const dir = resolve(outputDir);
+    await mkdir(dir, { recursive: true });
+    const ts = new Date().toISOString().replace(/[:]/g, "-").split(".")[0];
+    const safeName = queryLabel.replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 50);
+    filePath = join(dir, `${safeName}_${ts}.csv`);
+  }
 
   await writeFile(filePath, csvData, "utf-8");
 

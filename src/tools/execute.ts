@@ -27,10 +27,14 @@ export function registerExecuteTools(
           .enum(["json", "csv"])
           .default("json")
           .describe("Result format: 'json' returns data in response, 'csv' saves to file and returns file path"),
+        output_path: z
+          .string()
+          .optional()
+          .describe("Custom file path for CSV output. If omitted, saves to cwd as adhoc_{timestamp}.csv"),
       },
       annotations: { readOnlyHint: true },
     },
-    async ({ query, data_source_id, format }) => {
+    async ({ query, data_source_id, format, output_path }) => {
       try {
         const dsId = data_source_id ?? config.defaultDataSourceId;
         if (dsId === undefined) {
@@ -66,7 +70,7 @@ export function registerExecuteTools(
 
         if (format === "csv") {
           const csvData = await client.getQueryResultCsv(resultId);
-          const saveResult = await saveCsvResult(csvData, config.outputDir, "adhoc");
+          const saveResult = await saveCsvResult(csvData, config.outputDir, "adhoc", output_path);
           return {
             content: [{ type: "text", text: formatCsvSaveResultText(saveResult) }],
           };
